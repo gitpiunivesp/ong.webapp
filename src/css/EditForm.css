@@ -1,0 +1,91 @@
+.edit-form-field {
+  margin-bottom: 16px;
+}
+
+.edit-form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.edit-form-field input,
+.edit-form-field select,
+.edit-form-field textarea {
+  width: 100%;
+  padding: 10px 0px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.edit-form-field input:focus,
+.edit-form-field select:focus,
+.edit-form-field textarea:focus {
+  border-color: #1034aa;
+  box-shadow: 0 0 0 2px rgba(16, 52, 170, 0.1);
+  outline: none;
+}
+
+.edit-form-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.file-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.current-file {
+  padding: 8px;
+  background-color: #f5f8ff;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #1034aa;
+}
+
+.edit-form-field input:disabled,
+.edit-form-field select:disabled,
+.edit-form-field textarea:disabled {
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .edit-form-field label {
+    font-size: 13px;
+  }
+
+  .edit-form-field input,
+  .edit-form-field select,
+  .edit-form-field textarea {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .current-file {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-form-field {
+    margin-bottom: 12px;
+  }
+
+  .edit-form-field label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .edit-form-field input,
+  .edit-form-field select,
+  .edit-form-field textarea {
+    padding: 7px;
+    font-size: 12px;
+  }
+}
