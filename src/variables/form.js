@@ -1,13 +1,13 @@
 export const formTypes = [
-  { id: "empresas", label: "Empresa" },
-  { id: "usuarios", label: "Usuário" },
+  { id: "empresas", label: "Empresas" },
+  { id: "usuarios", label: "Usuários" },
   { id: "pessoas", label: "Pessoas" },
   { id: "animais", label: "Animais" },
 ];
 
 export const searchTypes = [
-  { id: "empresas", label: "Empresa" },
-  { id: "usuarios", label: "Usuário" },
+  { id: "empresas", label: "Empresas" },
+  { id: "usuarios", label: "Usuários" },
   { id: "animais", label: "Animais" },
   { id: "agendamentos", label: "Agendamentos" },
   { id: "interessados", label: "Interessados" },
