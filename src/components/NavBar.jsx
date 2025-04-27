@@ -27,7 +27,7 @@ export const NavBar = ({ handleLogout, isLogin }) => {
   ) : (
     <nav className="simple-navbar">
       <div className="navbar-brand">
-        <span>ONG System</span>
+        <span>ONG UPAR</span>
         <img src="/logo.jpeg" alt="logo" />
       </div>
     </nav>

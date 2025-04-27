@@ -7,7 +7,7 @@ const SideBar = ({ handleLogout }) => {
     <div className="sidebar">
       <div className="sidebar-header">
         <img src="/logo.jpeg" alt="Logo" className="sidebar-logo" />
-        <h2>ONG System</h2>
+        <h2>ONG UPAR</h2>
       </div>
 
       <nav className="sidebar-nav">
