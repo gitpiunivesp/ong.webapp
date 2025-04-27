@@ -52,6 +52,40 @@ const SearchPage = () => {
           });
         }
 
+        if (selectedFormType === "agendamentos" && Array.isArray(data)) {
+          processedData = await Promise.all(
+            data.map(async (item) => {
+              const enrichedItem = { ...item };
+
+              if (item.animal_id && !item.animal) {
+                try {
+                  const animalData = await getDataById(
+                    "animais",
+                    item.animal_id
+                  );
+                  enrichedItem.animal = animalData;
+                } catch (error) {
+                  console.error("Error fetching animal data:", error);
+                }
+              }
+
+              if (item.colaborador_id && !item.colaborador) {
+                try {
+                  const colaboradorData = await getDataById(
+                    "colaboradores",
+                    item.colaborador_id
+                  );
+                  enrichedItem.colaborador = colaboradorData;
+                } catch (error) {
+                  console.error("Error fetching colaborador data:", error);
+                }
+              }
+
+              return enrichedItem;
+            })
+          );
+        }
+
         setAllData(processedData);
       }
     } catch (error) {
@@ -135,7 +169,15 @@ const SearchPage = () => {
   const handleEditInputChange = (e, path) => {
     const { name, value, type, checked } = e.target;
     const isNested = e.target.getAttribute("data-nested") === "true";
-    const fieldValue = type === "checkbox" ? checked : value;
+
+    let fieldValue;
+    if (type === "checkbox") {
+      fieldValue = checked;
+    } else if (type === "date" && value) {
+      fieldValue = value;
+    } else {
+      fieldValue = value;
+    }
 
     if (isNested && path) {
       setEditFormData((prev) => {
@@ -173,13 +215,34 @@ const SearchPage = () => {
 
       if (selectedFormType === "animais") {
         delete dataToUpdate.adotado;
+
+        if (
+          dataToUpdate.tutor_id &&
+          (!dataToUpdate.tutor ||
+            dataToUpdate.tutor.id != dataToUpdate.tutor_id)
+        ) {
+          try {
+            const tutorData = await getDataById(
+              "tutores",
+              dataToUpdate.tutor_id
+            );
+            dataToUpdate.tutor = tutorData;
+          } catch (error) {
+            console.error("Erro ao buscar dados completos do tutor:", error);
+            dataToUpdate.tutor = { id: dataToUpdate.tutor_id };
+          }
+        } else if (dataToUpdate.adotado === "no" || !dataToUpdate.tutor_id) {
+          dataToUpdate.tutor = null;
+        }
+
+        delete dataToUpdate.tutor_id;
       }
 
       await updateData(selectedFormType, selectedRecord.id, dataToUpdate);
 
       const updatedData = allData.map((item) => {
         if (item.id === selectedRecord.id) {
-          return { ...item, ...editFormData };
+          return { ...item, ...dataToUpdate };
         }
         return item;
       });
@@ -329,6 +392,18 @@ const SearchPage = () => {
   const renderTableCell = (item, column) => {
     let value;
 
+    if (selectedFormType === "agendamentos") {
+      if (column.accessor === "animal_id" && item.animal) {
+        return item.animal.apelido || `Animal #${item.animal.id}`;
+      }
+      if (column.accessor === "colaborador_id" && item.colaborador) {
+        return item.colaborador.nome || `Colaborador #${item.colaborador.id}`;
+      }
+      if (column.accessor === "tutor_id" && item.tutor) {
+        return item.tutor.nome || `Tutor #${item.tutor.id}`;
+      }
+    }
+
     if (column.nested && column.path) {
       const pathParts = column.path.split(".");
       let currentObj = item;
@@ -345,9 +420,33 @@ const SearchPage = () => {
 
     if (value === null || value === undefined) return "-";
     if (typeof value === "boolean") return value ? "Sim" : "Não";
-    if (value instanceof Date) return value.toLocaleDateString();
+    if (value instanceof Date) return value.toLocaleDateString("pt-BR");
+
+    if (
+      typeof value === "string" &&
+      (column.accessor.includes("data") || /^\d{4}-\d{2}-\d{2}T?.*/.test(value))
+    ) {
+      try {
+        if (value.includes("T")) {
+          const date = new Date(value);
+          if (!isNaN(date.getTime())) {
+            return date.toLocaleDateString("pt-BR");
+          }
+        } else {
+          const [year, month, day] = value
+            .split("-")
+            .map((num) => parseInt(num, 10));
+          const date = new Date(year, month - 1, day);
+          return date.toLocaleDateString("pt-BR");
+        }
+      } catch (e) {
+        console.error("Erro ao formatar data:", e);
+      }
+    }
+
     return String(value);
   };
+
   return (
     <div className="page-container">
       <div className="search-container">

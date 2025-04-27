@@ -229,7 +229,7 @@ const FormPage = () => {
             className="submit-button"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Salvando..." : "Salvar"}
+            {isSubmitting ? "Enviando..." : "Salvar"}
           </button>
         </form>
       </div>

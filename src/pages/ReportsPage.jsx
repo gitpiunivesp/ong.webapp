@@ -55,7 +55,8 @@ const ReportsPage = () => {
     switch (type) {
       case "date":
         try {
-          return new Date(value).toLocaleDateString();
+          const date = new Date(value);
+          return date.toLocaleDateString("pt-BR");
         } catch (e) {
           console.error(e);
           return value;

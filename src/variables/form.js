@@ -212,10 +212,10 @@ export const formFieldsConfig = {
       required: true,
     },
     {
-      id: "data_de_adocao",
+      id: "data_adocao",
       label: "Data de Adoção:",
       type: "date",
-      name: "data_de_adocao",
+      name: "data_adocao",
       required: false,
       condition: { field: "adotado", value: "yes" },
     },
@@ -229,6 +229,7 @@ export const formFieldsConfig = {
       apiSource: "tutores",
       valueField: "id",
       labelField: "nome",
+      labelFields: "nome",
     },
   ],
   interessados: [
@@ -340,7 +341,7 @@ export const formFieldsConfig = {
     },
     {
       id: "animal_id",
-      label: "Animal (ID):",
+      label: "Animal",
       type: "text",
       name: "animal_id",
       required: true,
@@ -349,7 +350,7 @@ export const formFieldsConfig = {
     },
     {
       id: "colaborador_id",
-      label: "Colaborador (ID):",
+      label: "Colaborador",
       type: "text",
       name: "colaborador_id",
       required: false,
@@ -367,7 +368,7 @@ export const formFieldsConfig = {
     },
     {
       id: "tutor_id",
-      label: "Tutor (ID):",
+      label: "Tutor",
       type: "text",
       name: "tutor_id",
       required: false,
@@ -383,14 +384,14 @@ export const formFieldsConfig = {
       nested: true,
       path: "tutor.telefone",
     },
-    {
-      id: "tutor_nome",
-      label: "Nome do Tutor:",
-      type: "text",
-      name: "tutor_nome",
-      required: false,
-      nested: true,
-      path: "tutor.nome",
-    },
+    // {
+      // id: "tutor_nome",
+      // label: "Nome do Tutor:",
+      // type: "text",
+      // name: "tutor_nome",
+      // required: false,
+      // nested: true,
+      // path: "tutor.nome",
+    // },
   ],
 };

@@ -19,7 +19,8 @@ const ExportCSVButton = ({ tableData, reportName, disabled = false }) => {
           let value = row[col.key];
 
           if (col.type == "date" && value) {
-            value = new Date(value).toLocaleDateString();
+            const date = new Date(value);
+            value = date.toLocaleDateString("pt-BR");
           }
 
           if (value == null || value == undefined) {
