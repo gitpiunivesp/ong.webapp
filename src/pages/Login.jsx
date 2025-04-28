@@ -70,9 +70,9 @@ const Login = ({ onLogin }) => {
                 {isLoading ? "Entrando..." : "Entrar"}
               </button>
               <div className="acc-text">
-                Não tem uma conta ?{" "}
+                {/* Não tem uma conta ?{" "} */}
                 <Link className="link" to="/register">
-                  Criar uma conta
+                  {/* Criar uma conta */}
                 </Link>
               </div>
             </div>
