@@ -25,18 +25,13 @@ const ReportsPage = () => {
   const loadTableData = async () => {
     setIsLoading(true);
     setError(null);
-
     const columns = getColumnsForReportType(selectedReportType);
-
     try {
       const params = {};
-
       const rows = await getData(selectedReportType, params);
-
       if (!rows) {
         throw new Error("Dados inválidos recebidos do servidor");
       }
-
       setTableData({ columns, rows });
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
@@ -51,14 +46,11 @@ const ReportsPage = () => {
 
   const formatCellValue = (value, type) => {
     if (value === undefined || value === null) return "-";
-
     switch (type) {
       case "date":
         try {
-          const date = new Date(value);
-          return date.toLocaleDateString("pt-BR");
+          return new Date(value).toLocaleDateString("pt-BR");
         } catch (e) {
-          console.error(e);
           return value;
         }
       case "boolean":
@@ -78,10 +70,13 @@ const ReportsPage = () => {
   return (
     <div className="page-container">
       <div className="reports-container">
-        <div className="table-tabs">
+        {/* CORREÇÃO 1: Adicionado role="tablist" para criar um grupo de abas acessível */}
+        <div className="table-tabs" role="tablist" aria-label="Tipos de Relatório">
           {animalReportTypes.map((type) => (
             <button
               key={type.id}
+              role="tab" // Define o papel de cada botão
+              aria-selected={selectedReportType === type.id} // Indica qual está ativo
               className={`table-tab ${
                 selectedReportType === type.id ? "active" : ""
               }`}
@@ -92,21 +87,29 @@ const ReportsPage = () => {
           ))}
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {/* CORREÇÃO 3: Mensagem de erro agora usa role="alert" para ser anunciada */}
+        {error && <div className="error-message" role="alert">{error}</div>}
 
         <div className="table-container">
-          {isLoading ? (
-            <div className="loading-indicator">Carregando dados...</div>
-          ) : !tableData.rows || tableData.rows.length === 0 ? (
-            <div className="no-results">
-              Nenhum dado encontrado para este relatório
-            </div>
-          ) : (
+          {/* CORREÇÃO 3: Mensagens de status agora são anunciadas com aria-live */}
+          <div aria-live="polite" role="status">
+            {isLoading && <div className="loading-indicator">Carregando dados...</div>}
+            {!isLoading && (!tableData.rows || tableData.rows.length === 0) && (
+              <div className="no-results">
+                Nenhum dado encontrado para este relatório.
+              </div>
+            )}
+          </div>
+          
+          {!isLoading && tableData.rows && tableData.rows.length > 0 && (
             <table className="data-table">
+              {/* CORREÇÃO 2: Adicionado <caption> para dar um título acessível à tabela */}
+              <caption className="sr-only">{getReportTitle()}</caption>
               <thead>
                 <tr>
                   {tableData.columns.map((column) => (
-                    <th key={column.key}>{column.title}</th>
+                    // CORREÇÃO 2: Adicionado scope="col" para associar cabeçalhos às colunas
+                    <th scope="col" key={column.key}>{column.title}</th>
                   ))}
                 </tr>
               </thead>
@@ -129,6 +132,8 @@ const ReportsPage = () => {
           tableData={tableData}
           reportName={getReportTitle()}
           disabled={isLoading || !tableData.rows || tableData.rows.length === 0}
+          // BÔNUS: Adiciona um aria-label para maior clareza
+          aria-label={`Exportar relatório de ${getReportTitle()} para CSV`}
         />
       </div>
     </div>

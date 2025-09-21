@@ -26,13 +26,11 @@ const Login = ({ onLogin }) => {
       localStorage.setItem("authenticated", "true");
       localStorage.setItem("userData", JSON.stringify(response || {}));
       onLogin();
-
       navigate("/");
-
       setIsLoading(false);
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      setError("Credenciais inválidas");
+      setError("Credenciais inválidas. Por favor, tente novamente.");
       setIsLoading(false);
     }
   };
@@ -41,9 +39,10 @@ const Login = ({ onLogin }) => {
     <div className="wrapper">
       <div className="wrapper-content">
         <div className="container">
-          <span className="heading">Entre na sua conta </span>
+          <h1 className="heading">Entre na sua conta</h1> {/* Melhor usar h1 para o título principal da página */}
 
-          {error && <div className="error-message">{error}</div>}
+          {/* CORREÇÃO 3: Adicionado role="alert" para que o erro seja anunciado por leitores de tela */}
+          {error && <div className="error-message" role="alert">{error}</div>}
 
           <form onSubmit={handleSubmit} className="form">
             <div className="input-field">
@@ -57,12 +56,21 @@ const Login = ({ onLogin }) => {
                 autoComplete="off"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                id="password"
+                id="password" // O id deve ser único e corresponder ao htmlFor
               />
-              <label htmlFor="senha">Password</label>
-              <div className="passicon" onClick={togglePasswordVisibility}>
+              {/* CORREÇÃO 1: O htmlFor agora corresponde ao id="password" */}
+              <label htmlFor="password">Password</label>
+
+              {/* CORREÇÃO 2: Trocamos a <div> por um <button> para torná-lo acessível via teclado e para leitores de tela. */}
+              <button
+                type="button" // type="button" impede que ele envie o formulário
+                className="passicon"
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"} // Descreve a ação para leitores de tela
+                aria-pressed={showPassword} // Informa se o botão está "ativado" ou não
+              >
                 {showPassword ? "👁️" : "👁️‍🗨️"}
-              </div>
+              </button>
             </div>
 
             <div className="btn-container">
@@ -70,9 +78,10 @@ const Login = ({ onLogin }) => {
                 {isLoading ? "Entrando..." : "Entrar"}
               </button>
               <div className="acc-text">
-                {/* Não tem uma conta ?{" "} */}
+                Não tem uma conta?{" "}
+                {/* CORREÇÃO 4: Adicionado o texto "Criar uma conta" que estava comentado */}
                 <Link className="link" to="/register">
-                  {/* Criar uma conta */}
+                  Criar uma conta
                 </Link>
               </div>
             </div>

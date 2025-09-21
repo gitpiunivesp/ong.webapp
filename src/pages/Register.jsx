@@ -23,17 +23,14 @@ const Register = ({ onRegister }) => {
 
     try {
       const response = await register(data);
-
       localStorage.setItem("authenticated", "true");
       localStorage.setItem("userData", JSON.stringify(response || {}));
-
       onRegister();
-
       navigate("/");
       setIsLoading(false);
     } catch (error) {
       console.error("Erro ao fazer registro:", error);
-      setError("Erro ao criar conta");
+      setError("Erro ao criar conta. Verifique os dados e tente novamente.");
       setIsLoading(false);
     }
   };
@@ -42,9 +39,11 @@ const Register = ({ onRegister }) => {
     <div className="wrapper">
       <div className="wrapper-content">
         <div className="container">
-          <div className="heading">Criar sua conta</div>
+          {/* CORREÇÃO 1: Usar <h1> para o título principal da página melhora a estrutura semântica. */}
+          <h1 className="heading">Criar sua conta</h1>
 
-          {error && <div className="error-message">{error}</div>}
+          {/* CORREÇÃO 2: Adicionar role="alert" faz com que o erro seja lido em voz alta por leitores de tela. */}
+          {error && <div className="error-message" role="alert">{error}</div>}
 
           <form onSubmit={handleSubmit} className="form">
             <div className="input-field">
@@ -56,7 +55,7 @@ const Register = ({ onRegister }) => {
               <label htmlFor="usuario">Nome de Usuario</label>
             </div>
             <div className="input-field">
-              <input required autoComplete="off" name="email" id="email" />
+              <input required autoComplete="off" name="email" id="email" type="email" />
               <label htmlFor="email">Email</label>
             </div>
             <div className="input-field">
@@ -69,7 +68,6 @@ const Register = ({ onRegister }) => {
               />
               <label htmlFor="telefone">Telefone</label>
             </div>
-
             <div className="input-field">
               <input
                 required
@@ -79,9 +77,17 @@ const Register = ({ onRegister }) => {
                 id="senha"
               />
               <label htmlFor="senha">Password</label>
-              <div className="passicon" onClick={togglePasswordVisibility}>
+              
+              {/* CORREÇÃO 3: Substituir a <div> do ícone por um <button> acessível. */}
+              <button
+                type="button"
+                className="passicon"
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                aria-pressed={showPassword}
+              >
                 {showPassword ? "👁️" : "👁️‍🗨️"}
-              </div>
+              </button>
             </div>
 
             <div className="btn-container">
@@ -89,7 +95,7 @@ const Register = ({ onRegister }) => {
                 {isLoading ? "Registrando..." : "Registrar"}
               </button>
               <div className="acc-text">
-                Já tem uma conta ?{" "}
+                Já tem uma conta?{" "}
                 <Link className="link" to="/login">
                   Entrar
                 </Link>
