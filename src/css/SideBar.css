@@ -1,16 +1,17 @@
+/* --- Estilos Gerais da Sidebar --- */
 .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #1034aa;
+  background-color: #1034aa; /* Sua cor original */
   color: white;
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  transition: width 0.3s ease;
+  transition: transform 0.3s ease-in-out; /* Animação de deslize */
 }
 
 .sidebar-header {
@@ -33,26 +34,23 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0;
-  text-align: center;
 }
 
 .sidebar-nav {
-  flex: 1;
+  flex-grow: 1; /* Faz a navegação ocupar o espaço restante */
   padding: 20px 0;
-  display: flex;
-  flex-direction: column;
   overflow-y: auto;
 }
 
 .nav-item {
-  padding: 12px 20px;
+  padding: 12px 25px;
   display: flex;
   align-items: center;
   color: white;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-left-color 0.2s ease;
   border-left: 4px solid transparent;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .nav-item:hover {
@@ -61,17 +59,28 @@
 
 .nav-item.active {
   background-color: rgba(255, 255, 255, 0.2);
-  border-left: 4px solid white;
+  border-left-color: #1abc9c; /* Cor de destaque para o item ativo */
+  font-weight: bold;
 }
 
 .nav-icon {
-  margin-right: 12px;
-  font-size: 18px;
+  margin-right: 15px;
+  font-size: 20px;
   width: 24px;
   text-align: center;
-  display: inline-block;
 }
 
+/* Acessibilidade: Melhora o indicador de foco para quem navega com teclado */
+.nav-item:focus-visible,
+.logout-btn:focus-visible,
+.hamburger-btn:focus-visible {
+  outline: 2px solid #3498db; /* Um contorno azul bem visível */
+  outline-offset: -2px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- Rodapé da Sidebar --- */
 .sidebar-footer {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -79,7 +88,7 @@
 
 .logout-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   background: transparent;
@@ -87,68 +96,51 @@
   color: white;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
 .logout-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-@media screen and (max-width: 1024px) {
-  .sidebar {
-    width: 220px;
-  }
 
-  .main-content {
-    margin-left: 220px;
-    width: calc(100% - 220px);
-  }
+/* --- Estilos para o Menu Responsivo (Mobile) --- */
+
+.hamburger-btn {
+  display: none; /* Escondido por padrão em telas grandes */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001; /* Fica acima da sidebar */
+  background: #1034aa;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-@media screen and (max-width: 768px) {
-  .sidebar {
-    width: 70px;
-  }
-
-  .sidebar-header {
-    padding: 15px 5px;
-  }
-
-  .sidebar-logo {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 5px;
-  }
-
-  .sidebar-header h2,
-  .nav-item span,
-  .logout-btn span {
-    display: none;
-  }
-
-  .nav-item {
-    padding: 15px 0;
-    justify-content: center;
-  }
-
-  .nav-icon {
-    margin-right: 0;
-    font-size: 20px;
-  }
-
-  .logout-btn {
-    justify-content: center;
-  }
+.hamburger-line {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
 }
 
-@media screen and (max-width: 480px) {
+/* Media Query para telas menores (ex: até 768px) */
+@media (max-width: 768px) {
   .sidebar {
-    width: 60px;
+    /* Por padrão, a sidebar fica escondida fora da tela */
+    transform: translateX(-100%);
   }
 
-  .main-content {
-    margin-left: 60px;
-    width: calc(100% - 60px);
-    padding: 15px 10px;
+  .sidebar.open {
+    /* Quando a classe 'open' é adicionada via JS, ela desliza para dentro da tela */
+    transform: translateX(0);
+  }
+
+  .hamburger-btn {
+    display: block; /* Mostra o botão hambúrguer apenas em telas pequenas */
   }
 }
