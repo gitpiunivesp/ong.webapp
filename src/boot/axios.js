@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://monophonic-dean-unhoodwinked.ngrok-free.dev",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
