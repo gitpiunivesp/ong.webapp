@@ -281,6 +281,11 @@ const SearchPage = () => {
         value = item[column.accessor];
     }
     if (value === null || value === undefined) return "-";
+
+    if (column.accessor === "senha") 
+      return "********";
+        
+    
     if (typeof value === "boolean") return value ? "Sim" : "Não";
     if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}T?.*/.test(value)) {
         try {

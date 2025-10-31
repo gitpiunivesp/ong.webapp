@@ -29,7 +29,7 @@ const Register = ({ onRegister }) => {
       navigate("/");
       setIsLoading(false);
     } catch (error) {
-      console.error("Erro ao fazer registro:", error);
+      //console.error("Erro ao fazer registro:", error);
       setError("Erro ao criar conta. Verifique os dados e tente novamente.");
       setIsLoading(false);
     }
@@ -39,25 +39,36 @@ const Register = ({ onRegister }) => {
     <div className="wrapper">
       <div className="wrapper-content">
         <div className="container">
-          {/* CORREÇÃO 1: Usar <h1> para o título principal da página melhora a estrutura semântica. */}
           <h1 className="heading">Criar sua conta</h1>
 
-          {/* CORREÇÃO 2: Adicionar role="alert" faz com que o erro seja lido em voz alta por leitores de tela. */}
-          {error && <div className="error-message" role="alert">{error}</div>}
+          {error && (
+            <div className="error-message" role="alert">
+              {error}
+            </div>
+          )}
 
-          <form onSubmit={handleSubmit} className="form">
+          <form onSubmit={handleSubmit} className="form" role="form">
             <div className="input-field">
               <input required autoComplete="off" name="nome" id="nome" />
               <label htmlFor="nome">Nome Completo</label>
             </div>
+
             <div className="input-field">
               <input required autoComplete="off" name="usuario" id="usuario" />
               <label htmlFor="usuario">Nome de Usuario</label>
             </div>
+
             <div className="input-field">
-              <input required autoComplete="off" name="email" id="email" type="email" />
+              <input
+                required
+                autoComplete="off"
+                name="email"
+                id="email"
+                type="email"
+              />
               <label htmlFor="email">Email</label>
             </div>
+
             <div className="input-field">
               <input
                 required
@@ -68,6 +79,7 @@ const Register = ({ onRegister }) => {
               />
               <label htmlFor="telefone">Telefone</label>
             </div>
+
             <div className="input-field">
               <input
                 required
@@ -77,8 +89,7 @@ const Register = ({ onRegister }) => {
                 id="senha"
               />
               <label htmlFor="senha">Password</label>
-              
-              {/* CORREÇÃO 3: Substituir a <div> do ícone por um <button> acessível. */}
+
               <button
                 type="button"
                 className="passicon"
@@ -94,6 +105,7 @@ const Register = ({ onRegister }) => {
               <button type="submit" className="btn" disabled={isLoading}>
                 {isLoading ? "Registrando..." : "Registrar"}
               </button>
+
               <div className="acc-text">
                 Já tem uma conta?{" "}
                 <Link className="link" to="/login">
