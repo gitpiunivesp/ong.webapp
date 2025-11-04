@@ -56,17 +56,17 @@ describe("Register component", () => {
   });
 
   it("chama o registro e navega em caso de sucesso", async () => {
-    register.mockResolvedValueOnce({ id: 1, nome: "Gabriel" });
+    register.mockResolvedValueOnce({ id: 1, nome: "Andre" });
 
     setup();
     fireEvent.change(screen.getByLabelText(/Nome Completo/i), {
-      target: { value: "Gabriel" },
+      target: { value: "Andre" },
     });
     fireEvent.change(screen.getByLabelText(/Nome de Usuario/i), {
-      target: { value: "gabriel" },
+      target: { value: "andre" },
     });
     fireEvent.change(screen.getByLabelText(/Email/i), {
-      target: { value: "g@g.com" },
+      target: { value: "a@a.com" },
     });
     fireEvent.change(screen.getByLabelText(/Telefone/i), {
       target: { value: "123" },
@@ -89,10 +89,10 @@ describe("Register component", () => {
     setup();
 
     fireEvent.change(screen.getByLabelText(/Nome Completo/i), {
-      target: { value: "Gabriel" },
+      target: { value: "Andre" },
     });
     fireEvent.change(screen.getByLabelText(/Nome de Usuario/i), {
-      target: { value: "gabriel" },
+      target: { value: "andre" },
     });
     fireEvent.change(screen.getByLabelText(/Email/i), {
       target: { value: "g@g.com" },
