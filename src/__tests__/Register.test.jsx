@@ -95,7 +95,7 @@ describe("Register component", () => {
       target: { value: "andre" },
     });
     fireEvent.change(screen.getByLabelText(/Email/i), {
-      target: { value: "g@g.com" },
+      target: { value: "a@a.com" },
     });
     fireEvent.change(screen.getByLabelText(/Telefone/i), {
       target: { value: "123" },
